@@ -3,20 +3,24 @@
 int main (){
 
     int i,n,t,b;
-    n,t,b = 0;
-    
-    while (( i = getchar()) != EOF)
-        if((i == "") || (i == " ")){
+    n = 0;
+    t = 0;
+    b = 0;
+    printf("CTRL + D to stop\n");
+
+    while (( i = getchar()) != EOF){
+        if(i == ' '){
            ++b; 
         }
-        if(i == "\n"){
+        if(i == '\n'){
             ++n;
         }
-        if(i == "\t"){
+        if(i == '\t'){
             ++t;
         }
-        printf("%d \\n\n %d \\t\n, %d blancks\n", );
-    return 0;
+   }
+   printf("%d saltos de línea\n%d tabuladores\n%d espacios en blanco\n", n, t, b);
+   return 0;
 
 }
 

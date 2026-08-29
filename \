@@ -17,8 +17,9 @@ void check_syntax_errors(void){
     }
     getchar();
     
-    int c, i, braces, brackets, paren, sq, dq, comment, esc, k, j, pr;
+    int c, i, braces, brackets, paren, sq, dq, comment, esc, k, j;
     char arr_esc[11] = {'n', 't', 'r', '0', '\\', '\"', 'a', 'b', 'f', 'v'};
+    char arr_rintf[5] = {'i', 'n', 't', 'f' };
     i = 0;
     braces = 0;
     brackets = 0;
@@ -29,44 +30,31 @@ void check_syntax_errors(void){
     esc = 0;
     k = 0;
     j = 0;
-    pr = 0;
 
     while(i < lim - 1 && (c = getchar()) != EOF ){
         
         if(c == 'p' ){
-            c = getchar();
-            if (c == 'r' ){
-                c = getchar();
-                if (c == 'i'){
-                    c = getchar();
-                    if(c == 'n' ){
-                        c = getchar();
-                        if (c == 't' ){
-                            c = getchar();
-                            if (c == 'f' ){
-                                c = getchar();
-                                if(c == '(' ){
-                                    paren++;
-                                    c = getchar();
-                                    if(c == '\"'  ){
-                                        j = 0;
-                                        while(j == 0 ){
-                                            c = getchar();
-                                            if (c == '\"' ){
-                                                break;
-                                            }else if(c == EOF ){
-                                                pr = 1;
-                                                break;
-                                            }
-                                        }   
-                                    }
-                                else if (c == ')' ){
-                                    paren--;
-                                }
-                            }
-                        }
-                    }
+            for(k = 0; k < 5; k++){
+                c = getchar()
+                if(c == arr_rintf[k]){
+                    j++;
+                }else if(c == EOF ){
+                    break;
                 }
+            }    
+            if (j == k ){
+                while(j > 0){
+                    c = getchar()
+                    if(c == ';' ){
+                        j = 0;
+                        break;
+                    }else if (c == EOF ){
+                        break;
+                    }
+                    j--;
+                }
+            }else{
+                j = 0;
             }
         }
 
@@ -113,23 +101,18 @@ void check_syntax_errors(void){
                            comment = 1;
                         }   
                     }
-                    if (c == EOF ){
-                        break;
-                    }
                 }
             }
         }
 
         if( c == '\\' ){
             c = getchar();
-            j = 0;
             for(k = 0; k < 10; k++){
-                if(c == arr_esc[k]){
-                    j++;
-                } 
-            }
-            if (j == 0 ){
-                esc = 1;
+                if(c != arr_esc[k]){
+                    esc = 1;
+                }else{
+                    break;
+                }
             }
 
         }
@@ -187,13 +170,6 @@ void check_syntax_errors(void){
         printf("theres an invalid escape secuence used");
     }else if (esc == 0){
         printf("all escape secuences are correct");
-    }
-
-    if(pr == 1){
-        printf("a printf is not closed correctly");
-    }else if (pr == 0){
-        printf("no problems with printf()'s");
-
     }
 }
 
